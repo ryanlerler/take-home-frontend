@@ -10,6 +10,7 @@ export default function AddForm({ riskScenarioId }) {
   const [projectRiskId, setProjectRiskId] = useState(1);
   const userContext = useContext(UserContext);
 
+  console.log(projectRiskId);
   useEffect(() => {
     const fetchProjectRisk = async () => {
       const { data } = await axios.get(`${BACKEND_URL}/project-risk`);
@@ -37,12 +38,12 @@ export default function AddForm({ riskScenarioId }) {
       <Form onSubmit={handleSubmit}>
         <Form.Label>Project</Form.Label>
         <Form.Select
-          onChange={({ target }) => setProjectRiskId(target.value)}
+          onChange={({ target }) => setProjectRiskId(Number(target.value))}
         >
-          {projectRisk.map((p) => {
+          {projectRisk.slice(0, 3).map((p) => {
             return (
               <option key={p.id} value={p.id}>
-                {p.id}
+                {p.name}
               </option>
             );
           })}

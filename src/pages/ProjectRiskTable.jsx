@@ -32,6 +32,8 @@ export default function ProjectRiskTable() {
     fetchProjectRiskScenario();
   }, []);
 
+  console.log(projectRiskScenarios);
+
   const handleClick = async (id) => {
     await axios.delete(`${BACKEND_URL}/project-risk-scenario/${id}`);
     setProjectRiskScenarios(projectRiskScenarios.filter((p) => p.id !== id));
@@ -60,7 +62,7 @@ export default function ProjectRiskTable() {
   return (
     <div>
       <Button onClick={() => navigate("/")}>Home</Button>
-     
+
       <h2>Risk Table</h2>
 
       <Table striped bordered hover>
@@ -84,11 +86,12 @@ export default function ProjectRiskTable() {
                 <tr>
                   <td>{index + 1}</td>
                   <td>{p.projectRisk.user.name}</td>
-                  <td>{p.projectRiskId}</td>
+                  <td>{p.projectRisk.name}</td>
                   <td>{p.riskScenario.name}</td>
                   <td>{p.mitigationStatus.status}</td>
 
-                  {userContext.loggedInUser.role === "PM" && (
+                  {userContext.loggedInUser.email ===
+                    p.projectRisk.user.email && (
                     <td>
                       <Form onSubmit={(e) => handleSubmit(e, p.id)}>
                         <Form.Select
@@ -109,7 +112,8 @@ export default function ProjectRiskTable() {
                     </td>
                   )}
 
-                  {userContext.loggedInUser.role === "PM" && (
+                  {userContext.loggedInUser.email ===
+                    p.projectRisk.user.email && (
                     <td>
                       <Button
                         variant="danger"

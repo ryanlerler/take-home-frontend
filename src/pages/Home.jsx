@@ -51,21 +51,29 @@ export default function Home({ riskScenarios }) {
     <>
       {!user && <Button onClick={handlePmLogin}>Log In as PM</Button>}
       {!user && <Button onClick={handleRcLogin}>Log In as RC</Button>}
-      <Button
-        onClick={() => {
-          localStorage.removeItem("token");
 
-          logout({ logoutParams: { returnTo: window.location.origin } });
-        }}
-      >
-        Log Out
-      </Button>
+      {user && (
+        <Button
+          onClick={() => {
+            localStorage.removeItem("token");
+
+            logout({ logoutParams: { returnTo: window.location.origin } });
+          }}
+        >
+          Log Out
+        </Button>
+      )}
 
       {isAuthenticated && (
         <div>
-          <img src={user.picture} alt={user.name} />
-          <h2>{user.name}</h2>
+          <img
+            src={user.picture}
+            alt={user.name}
+            referrerPolicy="no-referrer"
+          />
+          <h2>{userContext.loggedInUser.name}</h2>
           <p>{user.email}</p>
+          <p>Role: {userContext.loggedInUser.role}</p>
         </div>
       )}
 
